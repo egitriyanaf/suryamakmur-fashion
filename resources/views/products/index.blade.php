@@ -18,8 +18,10 @@
                             <div class="card-header">
                                 <h4 class="card-title">
                                     List Product
-
-                                    <a href="{{ route('product.create') }}" class="btn btn-primary btn-sm float-right">Tambah</a>
+                                    <div class="float-right">
+                                        <a href="{{ route('product.bulk') }}" class="btn btn-danger btn-sm">Mass Upload</a>
+                                        <a href="{{ route('product.create') }}" class="btn btn-primary btn-sm">Tambah</a>
+                                    </div>
                                 </h4>
                             </div>
 
@@ -74,14 +76,14 @@
                                                     <form action="{{ route('product.destroy', $row->id) }}" method="post">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <a href="{{ route('category.edit', $row->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                        <a href="{{ route('product.edit', $row->id) }}" class="btn btn-warning btn-sm">Edit</a>
                                                         <button class="btn btn-danger btn-sm">Hapus</button>
                                                     </form>
                                                 </td>
                                             </tr>                                                
                                             @empty
                                                 <tr>
-                                                    <td colspan="5" class="text-center">Tidak Ada Data</td>
+                                                    <td colspan="6" class="text-center">Tidak Ada Data</td>
                                                 </tr>
                                             @endforelse
                                         </tbody>
