@@ -45,6 +45,7 @@
                     </div>
                 </div>
                 <div class="latest_product_inner row">
+                    
                     @forelse ($products as $row)
                     <div class="col-lg-3 col-md-3 col-sm-6">
                         <div class="f_p_item">

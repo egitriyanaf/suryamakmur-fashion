@@ -13,7 +13,7 @@ class CategoryController extends Controller
         return view('categories.index', compact('category', 'parent'));
     }
 
-    public function store(){
+    public function store(Request $request){
         $this->validate($request, [
             'name' => 'required|string|max:50|unique:categories'
         ]);

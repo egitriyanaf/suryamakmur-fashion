@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Http\View;
-// use Illuminate\View\View;
-use Illuminate\Support\Facades\View;
+use Illuminate\View\View;
 use App\Category;
 
 class CategoryComposer

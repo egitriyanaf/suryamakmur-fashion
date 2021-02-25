@@ -36,7 +36,7 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'price' => 'required|integer',
             'weight' => 'required|integer',
-            'image' => 'required|image|mimes:png, jpeg, jpg'
+            'image' => 'required|image|mimes:png,jpeg,jpg'
         ]);
 
         if ($request->hasFile('image')) {
@@ -99,10 +99,10 @@ class ProductController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:100',
             'description' => 'required',
-            'category_id' => 'required|exist:categories,id',
+            'category_id' => 'required|exists:categories,id',
             'price' => 'required|integer',
             'weight' => 'required|integer',
-            'image' => 'nullable|image|mimes: png,jpeg,jpg'
+            'image' => 'nullable|image|mimes:png,jpeg,jpg'
         ]);
 
         $product = Product::find($id);

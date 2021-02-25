@@ -21,7 +21,7 @@
                             </div>
                             <div class="card-body">
 
-                                <form action="{{ route('category.store') }}" method="post">
+                                <form action="{{ route('category.store') }}" method="POST">
                                     @csrf
                                     <div class="form-group">
                                         <label for="name">Kategori</label>

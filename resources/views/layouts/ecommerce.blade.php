@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link rel="icon" href="img/favicon.png" type="image/png">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
     @yield('title')
 
@@ -23,7 +22,7 @@
 </head>
 
 <body>
-    <header class="header-area">
+    <header class="header_area">
         <div class="top_menu row m0">
             <div class="container-fluid">
                 <div class="float-left">
@@ -79,7 +78,7 @@
 									</li>
 									<hr>
 									<li class="nav-item">
-										<a href="#" class="icons">
+										<a href="{{route('front.list_cart')}}" class="icons">
 											<i class="lnr lnr lnr-cart"></i>
 										</a>
 									</li>
