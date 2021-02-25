@@ -30,8 +30,11 @@
                 </div>
                 <div class="float-right">
                     <ul class="right_side">
-                        <li><a href="{{ url('login') }}">Login</a></li>
-                        <li><a href="{{ url('register') }}">Register</a></li>
+						@if (auth()->guard('customer')->check())
+						<li><a href="{{ route('customer.logout') }}">Logout</a></li>
+						@else
+                        <li><a href="{{ route('customer.login') }}">Login</a></li>
+						@endif
                         <li><a href="#">My Account</a></li>
                         <li><a href="#">Contact Us</a></li>
                     </ul>
@@ -228,5 +231,6 @@
 	<script src="{{ asset('ecommerce/vendors/counter-up/jquery.counterup.js') }}"></script>
 	<script src="{{ asset('ecommerce/js/mail-script.js') }}"></script>
 	<script src="{{ asset('ecommerce/js/theme.js') }}"></script>
+	@yield('js')
 </body>
 </html>

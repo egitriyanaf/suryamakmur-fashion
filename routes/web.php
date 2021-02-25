@@ -26,6 +26,22 @@ Route::get('/cart', 'Ecommerce\CartController@listCart')->name('front.list_cart'
 
 Route::post('/cart/update', 'Ecommerce\CartController@updateCart')->name('front.update_cart');
 
+Route::get('/checkout', 'Ecommerce\CartController@checkout')->name('front.checkout');
+
+Route::post('/checkout', 'Ecommerce\CartController@processCheckout')->name('front.store_checkout');
+
+Route::get('/checkout/{invoice}', 'Ecommerce\CartController@checkoutFinish')->name('front.finish_checkout');
+
+Route::group(['prefix' => 'member', 'namespace' => 'Ecommerce'], function() {
+    Route::get('login', 'LoginController@loginForm')->name('customer.login');
+    Route::get('verify/{token}', 'FrontController@verifyCustomerRegistration')->name('customer.verify');
+    Route::post('login', 'LoginController@login')->name('customer.post_login');
+    Route::group(['middleware' => 'customer'], function() {
+        Route::get('dashboard', 'LoginController@dashboard')->name('customer.dashboard');
+        Route::get('logout', 'LoginController@logout')->name('customer.logout');
+    });
+});
+
 Auth::routes();
 
 Route::group(['prefix' => 'administrator','middleware' => 'auth'], function(){

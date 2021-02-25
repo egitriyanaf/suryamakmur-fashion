@@ -22,7 +22,7 @@
     <section class="cart_area">
 		<div class="container">
 			<div class="cart_inner">
-                <form action="{{ route('front.update_cart') }}" method="post">
+                <form action="{{ route('front.update_cart') }}" method="POST">
                     @csrf
                     <div class="table-responsive">
                         <table class="table">
@@ -102,8 +102,8 @@
 								<td></td>
 								<td>
 									<div class="checkout_btn_inner">
-										<a class="gray_btn" href="#">Continue Shopping</a>
-										<a class="main_btn" href="#">Proceed to checkout</a>
+										<a class="gray_btn" href="{{ route('front.product') }}">Continue Shopping</a>
+										<a class="main_btn" href="{{ route('front.checkout') }}">Proceed to checkout</a>
 									</div>
 								</td>
 							</tr>

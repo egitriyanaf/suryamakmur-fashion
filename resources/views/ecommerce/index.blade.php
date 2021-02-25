@@ -69,13 +69,13 @@
 						<div class="f_p_item">
 							<div class="f_p_img">
                                 <img class="img-fluid" src="{{ asset('storage/products/' . $row->image) }}" alt="{{ $row->name }}">
-								<div class="p_icon">
-									<a href="{{ url('/product/' . $row->slug) }}">
-										<i class="lnr lnr-cart"></i>
+								<li class="nav-item">
+									<a href="{{ route('front.list_cart') }}" class="icons">
+										<i class="lnr lnr lnr-cart"></i>
 									</a>
-								</div>
+								</li>
 							</div>
-                            <a href="{{ url('/product/' . $row->slug) }}">
+                            <a href="{{ url('/product/'. $row->slug) }}">
                                 <h4>{{ $row->name }}</h4>
                             </a>
                             <h5>Rp {{ number_format($row->price) }}</h5>
