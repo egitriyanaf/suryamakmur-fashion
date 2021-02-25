@@ -6,9 +6,9 @@
 
 @section('content')
     <main class="main">
-        <ol class="breadcumb">
-            <li class="breadcumb-item">Home</li>
-            <li class="breadcumb-item active">Kategori</li>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Home</li>
+            <li class="breadcrumb-item active">Kategori</li>
         </ol>
         <div class="container-fluid">
             <div class="animated fadeIn">
