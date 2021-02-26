@@ -50,7 +50,7 @@
 						@else
                         <li><a href="{{ route('customer.login') }}">Login</a></li>
 						@endif
-                        <li><a href="#">My Account</a></li>
+                        <li><a href="{{ route('customer.dashboard') }}">My Account</a></li>
                         <li><a href="#">Contact Us</a></li>
                     </ul>
                 </div>
