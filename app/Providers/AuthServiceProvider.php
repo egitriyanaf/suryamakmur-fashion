@@ -24,7 +24,9 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        //
+        Gate::define('order-view', function($customer, $order) {
+            return $customer->id == $order->customer_id;
+        });
+        
     }
 }
