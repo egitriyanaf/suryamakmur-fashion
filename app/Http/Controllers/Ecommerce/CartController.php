@@ -114,7 +114,7 @@ class CartController extends Controller
         try{
             $customer = Customer::where('email', $request->email)->first();
 
-            if (!auth()->check() && $customer) {
+            if (!auth()->guard('customer')->check() && $customer) {
                 return redirect()->back()->with(['error' => 'Silahkan Login Terlebih Dahulu!']);
             }
 
@@ -124,6 +124,7 @@ class CartController extends Controller
                 return $q['qty'] * $q['product_price'];
             });
 
+        if (!auth()->guard('customer')->check()) {
             $password = Str::random(8);
             $customer = Customer::create([
                 'name' => $request->customer_name,
@@ -135,6 +136,7 @@ class CartController extends Controller
                 'active_token' => Str::random(30),
                 'status' => false 
             ]);
+        }
 
             $order = Order::create([
                 'invoice' => Str::random(4) . '-' . time(),
@@ -164,8 +166,10 @@ class CartController extends Controller
 
             $cookie = cookie('dw-carts', json_encode($carts), 2880);
 
+        if (!auth()->guard('customer')->check()) {
             Mail::to($request->email)->send(new CustomerRegisterMail($customer, $password));
-
+        }
+        
             return redirect(route('front.finish_checkout', $order->invoice))->cookie($cookie);
         } catch (\Exception $e){
             DB::rollback();

@@ -9,6 +9,8 @@ use App\Payment;
 use Carbon\Carbon;
 use DB;
 use PDF;
+use App\Mail\OrderMail;
+use Mail;
 
 class OrderController extends Controller
 {
@@ -91,5 +93,19 @@ class OrderController extends Controller
         $pdf = PDF::loadView('ecommerce.orders.pdf', compact('order'));
 
         return $pdf->stream();
+    }
+
+    public function acceptPayment($invoice){
+        $order = Order::with(['payment'])->where('invoice', $invoice)->first();
+        $order->payment()->update(['status' => 1]);
+        $order->update(['status' => 2]);
+        return redirect(route('orders.view', $order->invoice));
+    }
+
+    public function shippingOrder(Request $request){
+        $order = Order::with(['customer'])->find($request->order_id);
+        $order->update(['tracking_number' => $request->tracking_number, 'status' => 3]);
+        Mail::to($order->customer->email)->send(new OrderMail($order));
+        return redirect()->back();
     }
 }
