@@ -45,6 +45,9 @@ Route::group(['prefix' => 'member', 'namespace' => 'Ecommerce'], function() {
         Route::post('payment', 'OrderController@storePayment')->name('customer.savePayment');
         Route::get('setting', 'FrontController@customerSettingForm')->name('customer.settingForm');
         Route::post('setting', 'FrontController@customerUpdateProfile')->name('customer.setting');
+        Route::post('orders/accept', 'OrderController@acceptOrder')->name('customer.order_accept');
+        Route::get('orders/return/{invoice}', 'OrderController@returnForm')->name('customer.order_return');
+        Route::put('orders/return/{invoice}', 'OrderController@processReturn')->name('customer.return');
         
     });
 });
