@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use DB;
 use App\Mail\CustomerRegisterMail;
 use Mail;
+use Cookie;
 
 class CartController extends Controller
 {
@@ -112,6 +113,9 @@ class CartController extends Controller
 
         DB::beginTransaction();
         try{
+
+            $affiliate = json_decode(request()->cookie('dw-afiliasi'), true);
+            $explodeAffiliate = explode('-', $affiliate);
             $customer = Customer::where('email', $request->email)->first();
 
             if (!auth()->guard('customer')->check() && $customer) {
@@ -145,7 +149,8 @@ class CartController extends Controller
                 'customer_phone' => $request->customer_phone,
                 'customer_address' => $request->customer_address,
                 'district_id' => $request->district_id,
-                'subtotal' => $subtotal
+                'subtotal' => $subtotal,
+                'ref'=> $affiliate != '' && $explodeAffiliate[0] != auth()->guard('customer')->user()->id ? $affiliate:NULL
             ]);
 
             foreach ($carts as $row) {
@@ -165,6 +170,8 @@ class CartController extends Controller
             $carts = [];
 
             $cookie = cookie('dw-carts', json_encode($carts), 2880);
+
+            Cookie::queue(Cookie::forget('dw-afiliasi'));
 
         if (!auth()->guard('customer')->check()) {
             Mail::to($request->email)->send(new CustomerRegisterMail($customer, $password));

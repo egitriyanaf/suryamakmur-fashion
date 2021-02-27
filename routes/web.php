@@ -32,6 +32,8 @@ Route::post('/checkout', 'Ecommerce\CartController@processCheckout')->name('fron
 
 Route::get('/checkout/{invoice}', 'Ecommerce\CartController@checkoutFinish')->name('front.finish_checkout');
 
+Route::get('/product/ref/{user}/{product}', 'Ecommerce\FrontController@referalProduct')->name('front.afiliasi');
+
 Route::group(['prefix' => 'member', 'namespace' => 'Ecommerce'], function() {
     Route::get('login', 'LoginController@loginForm')->name('customer.login');
     Route::get('verify/{token}', 'FrontController@verifyCustomerRegistration')->name('customer.verify');
@@ -48,7 +50,7 @@ Route::group(['prefix' => 'member', 'namespace' => 'Ecommerce'], function() {
         Route::post('orders/accept', 'OrderController@acceptOrder')->name('customer.order_accept');
         Route::get('orders/return/{invoice}', 'OrderController@returnForm')->name('customer.order_return');
         Route::put('orders/return/{invoice}', 'OrderController@processReturn')->name('customer.return');
-        
+        Route::get('/afiliasi', 'FrontController@listCommission')->name('customer.affiliate');
     });
 });
 
