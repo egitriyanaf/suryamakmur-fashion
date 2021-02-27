@@ -15,7 +15,7 @@ class Order extends Model
         return $this->belongsTo(District::class);
     }
 
-    protected $appends = ['status_label', 'ref_status_label', 'commision'];
+    protected $appends = ['status_label', 'ref_status_label', 'commision', 'total'];
 
     public function getStatusLabelAttribute(){
         if ($this->status == 0) {
@@ -57,5 +57,9 @@ class Order extends Model
         $commision = ($this->subtotal * 10) / 100;
 
         return $commision > 10000 ? 10000:$commision;
+    }
+
+    public function getTotalAttribute(){
+        return $this->subtotal + $this->cost;
     }
 }

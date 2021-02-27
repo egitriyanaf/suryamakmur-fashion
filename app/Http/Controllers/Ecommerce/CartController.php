@@ -16,6 +16,7 @@ use DB;
 use App\Mail\CustomerRegisterMail;
 use Mail;
 use Cookie;
+use GuzzleHttp\Client;
 
 class CartController extends Controller
 {
@@ -31,22 +32,24 @@ class CartController extends Controller
             $carts[$request->product_id]['qty'] += $request->qty;
         } else {
             $product = Product::find($request->product_id);
+
             $carts[$request->product_id] = [
                 'qty'=> $request->qty,
                 'product_id'=>$product->id,
                 'product_name'=>$product->name,
                 'product_price'=>$product->price,
-                'product_image'=>$product->image
+                'product_image'=>$product->image,
+                'weight'=>$product->weight
             ];
         }
 
         $cookie = cookie('dw-carts', json_encode($carts), 2880);
 
-        return redirect()->back()->cookie($cookie);
+        return redirect()->back()->with(['success'=>'Produk Ditambahkan Ke Keranjang'])->cookie($cookie);
     }
 
     public function listCart(){
-        $carts = $this->json_decode(request()->cookie('dw-carts'), true);
+        $carts = json_decode(request()->cookie('dw-carts'), true);
 
         $subtotal = collect ($carts)->sum(function($q){
            return $q['qty'] * $q['product_price']; 
@@ -85,7 +88,11 @@ class CartController extends Controller
             return $q['qty'] * $q['product_price'];
         });
 
-        return view('ecommerce.checkout', compact('provinces', 'carts', 'subtotal'));
+        $weight = collect($carts)->sum(function($q){
+            return $q['qty'] * $q['weight'];
+        });
+
+        return view('ecommerce.checkout', compact('provinces', 'carts', 'subtotal', 'weight'));
     }
 
     public function getCity(){
@@ -108,7 +115,8 @@ class CartController extends Controller
             'customer_address' => 'required|string',
             'province_id' => 'required|exists:provinces, id',
             'city_id' => 'required|exists:cities, id',
-            'district_id' => 'required|exists:districts, id'
+            'district_id' => 'required|exists:districts, id',
+            'courier' => 'required'
         ]);
 
         DB::beginTransaction();
@@ -142,6 +150,8 @@ class CartController extends Controller
             ]);
         }
 
+            $shipping = explode('-', $request->courier);
+
             $order = Order::create([
                 'invoice' => Str::random(4) . '-' . time(),
                 'customer_id' => $customer->id,
@@ -150,6 +160,8 @@ class CartController extends Controller
                 'customer_address' => $request->customer_address,
                 'district_id' => $request->district_id,
                 'subtotal' => $subtotal,
+                'cost'=>$shipping[2],
+                'shipping'=>$shipping[0] . '-' . $shipping[1],
                 'ref'=> $affiliate != '' && $explodeAffiliate[0] != auth()->guard('customer')->user()->id ? $affiliate:NULL
             ]);
 
@@ -188,5 +200,29 @@ class CartController extends Controller
         $order = Order::with(['district.city'])->where('invoice', $invoice)->first();
 
         return view('ecommerce.checkout_finish', compact('order'));
+    }
+
+    public function getCourier(Request $request){
+        $this->validate($request, [
+            'destionation' => 'required',
+            'weight' => 'required|integer'
+        ]);
+
+        $url = 'https://ruangapi.com/api/v1/shipping';
+        $client = new Client();
+        $response = $client->request('POST', $url, [
+            'headers' => [
+                'Authorization' => '4vXQMYGu6zUzVngYtg5ghHGRFdxPlQJbdmZC2YNl'
+            ],
+            'form_params'=>[
+                'origin' => 22,
+                'destination' => $request->destination,
+                'weight' => $request->weight,
+                'courier' => 'jne,jnt,tiki'
+            ]
+        ]);
+
+        $body = json_decode($response->getBody(), true);
+        return $body;
     }
 }

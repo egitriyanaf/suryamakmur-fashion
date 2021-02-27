@@ -38,9 +38,9 @@ class HomeController extends Controller
             $end = Carbon::parse($date[1])->format('Y-m-d') . ' 23:59:59';
         }
         
-        $order = Order::with(['customer.district'])->whereBetween('created_at', [$start, $end])->get();
+        $orders = Order::with(['customer.district'])->whereBetween('created_at', [$start, $end])->get();
 
-        return view('report.order', compact('orders'));
+        return view('orders.order', compact('orders'));
     }
 
     public function orderReportPdf($daterang){
