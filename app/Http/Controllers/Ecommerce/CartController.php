@@ -113,9 +113,9 @@ class CartController extends Controller
             'customer_phone' => 'required',
             'email' => 'required|email',
             'customer_address' => 'required|string',
-            'province_id' => 'required|exists:provinces, id',
-            'city_id' => 'required|exists:cities, id',
-            'district_id' => 'required|exists:districts, id',
+            'province_id' => 'required|exists:provinces,id',
+            'city_id' => 'required|exists:cities,id',
+            'district_id' => 'required|exists:districts,id',
             'courier' => 'required'
         ]);
 
@@ -204,7 +204,7 @@ class CartController extends Controller
 
     public function getCourier(Request $request){
         $this->validate($request, [
-            'destionation' => 'required',
+            'destination' => 'required',
             'weight' => 'required|integer'
         ]);
 
@@ -218,7 +218,7 @@ class CartController extends Controller
                 'origin' => 22,
                 'destination' => $request->destination,
                 'weight' => $request->weight,
-                'courier' => 'jne,jnt,tiki'
+                'courier' => 'jne,jnt'
             ]
         ]);
 

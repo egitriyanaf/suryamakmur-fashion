@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\District;
 use App\OrderDetail;
 use App\Payment;
+use App\Customer;
+use App\OrderReturn;
 
 class Order extends Model
 {

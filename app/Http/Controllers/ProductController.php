@@ -8,6 +8,7 @@ use App\Product;
 use App\Category;
 use File;
 use App\Jobs\ProductJob;
+use App\Jobs\Marketplacejob;
 
 class ProductController extends Controller
 {
@@ -125,5 +126,16 @@ class ProductController extends Controller
         ]);
 
         return redirect(route('product.index'))->with(['success' => 'Data Produk Diperbaharui!']);
+    }
+
+    public function uploadViaMarketplace(Request $request){
+        $this->validate($request, [
+            'marketplace'=>'required|string',
+            'username'=>'required|string'
+        ]);
+
+        MarketplaceJob::dispatch($request->username, 10);
+
+        return redirect()->back()->with(['success'=>'Produk Dalam Antrian']);
     }
 }

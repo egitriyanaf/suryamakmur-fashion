@@ -82,7 +82,7 @@
                     <p class="text-danger">{{ $errors->first('district_id') }}</p>
                 </div>
                 <div class="col-md-12 form-group p_star">
-                    <label for="">Kurir</label>
+                    <label>Kurir</label>
                     <input type="hidden" name="weight" id="weight" value="{{ $weight }}">
                     <select class="form-control" name="courier" id="courier" required>
                         <option value="">Pilih Kurir</option>

@@ -68,6 +68,8 @@ Route::group(['prefix' => 'administrator','middleware' => 'auth'], function(){
 
     Route::post('/product/bulk', 'ProductController@massUpload')->name('product.saveBulk');
 
+    Route::post('/product/marketplace', 'ProductController@uploadViaMarketplace')->name('product.marketplace');
+
     Route::group(['prefix' => 'orders'], function() {
         Route::get('/', 'OrderController@index')->name('orders.index');
         Route::delete('/{id}', 'OrderController@destroy')->name('orders.destroy');
