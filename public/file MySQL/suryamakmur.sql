@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 26, 2021 at 11:59 AM
+-- Generation Time: Mar 02, 2021 at 07:15 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -41,8 +41,9 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `parent_id`, `slug`, `created_at`, `updated_at`) VALUES
-(1, 'Baju Muslim', NULL, 'baju-muslim', '2021-02-25 01:12:57', '2021-02-25 01:12:57'),
-(2, 'Busana', 1, 'busana', '2021-02-25 05:22:57', '2021-02-25 05:22:57');
+(6, 'Baju Muslim', NULL, 'baju-muslim', '2021-02-27 10:26:40', '2021-02-27 10:26:40'),
+(9, 'Outdoor', NULL, 'outdoor', '2021-02-27 19:07:32', '2021-02-27 19:07:32'),
+(10, 'Terlaris', 9, 'terlaris', '2021-02-27 19:07:39', '2021-02-27 19:07:39');
 
 -- --------------------------------------------------------
 
@@ -7678,7 +7679,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (16, '2021_02_25_135126_add_field_status_to_orders_table', 4),
 (17, '2021_02_25_142158_create_payments_table', 5),
 (18, '2021_02_26_080614_add_field_tracking_number_to_orders_table', 6),
-(19, '2021_02_26_105333_create_order_returns_table', 7);
+(19, '2021_02_26_105333_create_order_returns_table', 7),
+(20, '2021_02_27_074122_add_field_ref_to_orders_table', 8),
+(21, '2021_02_27_084514_add_field_shipping_to_orders_table', 9);
 
 -- --------------------------------------------------------
 
@@ -7695,8 +7698,12 @@ CREATE TABLE `orders` (
   `customer_address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `district_id` bigint(20) UNSIGNED NOT NULL,
   `subtotal` int(11) NOT NULL,
+  `cost` int(11) NOT NULL DEFAULT 0,
+  `shipping` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '0: new, 1: confirm, 2: process, 3: shipping, 4: done',
   `tracking_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ref` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ref_status` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -7791,7 +7798,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `slug`, `category_id`, `description`, `image`, `price`, `weight`, `status`, `created_at`, `updated_at`) VALUES
-(3, 'Gamis', 'gamis', 2, '<p>Gamis Putih Panjang</p>', '1614255897gamis.jpg', 16000, 1000, 1, '2021-02-25 05:24:57', '2021-02-25 05:24:57');
+(4, 'Gamis', 'gamis', 6, '<p>Gamis Putih Wanita Paling Kekinian</p>', '1614446852gamis.jpg', 160000, 1000, 1, '2021-02-27 10:27:32', '2021-02-27 10:27:32'),
+(5, 'T-Shirt Abu - Abu', 't-shirt-abu-abu', 10, '<p>Ukuran Tersedia: S , M , L , XL. XXL</p>', '1614478365t-shirt-abu-abu.jpg', 90000, 1000, 1, '2021-02-27 19:12:46', '2021-02-27 19:15:30'),
+(6, 'T-Shirt Hijau', 't-shirt-hijau', 10, '<p>Ukuran Tersedia: S, M, L, XL, XXL</p>', '1614478512t-shirt-hijau.jpg', 87000, 1000, 1, '2021-02-27 19:15:13', '2021-02-27 19:15:13');
 
 -- --------------------------------------------------------
 
@@ -7976,7 +7985,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `cities`
@@ -8012,7 +8021,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -8042,7 +8051,7 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `provinces`
